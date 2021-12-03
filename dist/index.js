@@ -98903,10 +98903,10 @@ var __webpack_exports__ = {};
  * @website:     http://blog.kaven.xyz
  * @file:        [github-action-auto-increment-version] /index.js
  * @create:      2021-12-03 22:34:52.942
- * @modify:      2021-12-04 00:59:40.106
+ * @modify:      2021-12-04 01:06:31.289
  * @version:     1.0.1
- * @times:       9
- * @lines:       86
+ * @times:       10
+ * @lines:       97
  * @copyright:   Copyright © 2021 Kaven. All Rights Reserved.
  * @description: [description]
  * @license:     [license]
@@ -98917,13 +98917,14 @@ const core = __nccwpck_require__(6744);
 // const github = require("@actions/github");
 const { KavenLog, LoadJsonFile, SaveStringToFile } = __nccwpck_require__(8808);
 const { logJson, increase, stringifyJson } = __nccwpck_require__(6606);
+const { join, resolve } = __nccwpck_require__(1017);
 
 async function run() {
     try {
         // inputs defined in action metadata file
         const debug = core.getBooleanInput("debug");
         let dir = core.getInput("dir");
-        const file = core.getInput("file");
+        let file = core.getInput("file");
         const index = Number(core.getInput("index"));
         const increment = Number(core.getInput("increment"));
 
@@ -98947,13 +98948,23 @@ async function run() {
             }
         }
 
-        if (debug) {
-            console.log(`dir: ${dir}, file: ${file}, index: ${index}, increment: ${increment}`);
+        if (!file) {
+            // TODO
+        }
+
+        if (!existsSync(file) && dir) {
+            file = join(dir, file);
         }
 
         if (!existsSync(file)) {
             core.setFailed(`file not exists: ${file}`);
             return;
+        }
+
+        file = resolve(file);
+
+        if (debug) {
+            console.log(`dir: ${dir}, file: ${file}, index: ${index}, increment: ${increment}`);
         }
 
         const json = await LoadJsonFile(file);
