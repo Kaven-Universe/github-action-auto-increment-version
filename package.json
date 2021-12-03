@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "ncc build index.js --license licenses.txt",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npm run test && ncc build index.js --license licenses.txt",
+    "test": "node src/test.js"
   },
   "repository": {
     "type": "git",
