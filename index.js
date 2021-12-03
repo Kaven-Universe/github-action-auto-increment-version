@@ -2,25 +2,24 @@
  * @author:      Kaven
  * @email:       kaven@wuwenkai.com
  * @website:     http://blog.kaven.xyz
- * @file:        [github-action-update-file] /index.js
+ * @file:        [github-action-auto-increment-version] /index.js
  * @create:      2021-12-03 22:34:52.942
- * @modify:      2021-12-03 22:34:57.923
+ * @modify:      2021-12-03 22:54:40.319
  * @version:     1.0.1
- * @times:       2
- * @lines:       66
+ * @times:       3
+ * @lines:       65
  * @copyright:   Copyright © 2021 Kaven. All Rights Reserved.
  * @description: [description]
  * @license:     [license]
  ********************************************************************/
 
-const { existsSync, createReadStream, renameSync, statSync } = require("fs");
+const { existsSync } = require("fs");
 const { join, dirname, isAbsolute } = require("path");
 
 const core = require("@actions/core");
-const github = require("@actions/github");
+// const github = require("@actions/github");
 
-const FormData = require("form-data");
-const { GetFileList, GetFileContent, KavenLog } = require("kaven-utils");
+const { GetFileContent, KavenLog } = require("kaven-utils");
 
 
 function logJson(data) {
