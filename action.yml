@@ -5,14 +5,16 @@ inputs:
     default: ""
   file:
     default: ""
-  type:
-    default: ""
+  index:
+    default: -1
+  increment:
+    default: 1
   debug:
     default: false
 outputs:
-  old:
+  oldVersion:
     description: "The old version"
-  new:
+  newVersion:
     description: "The new version"
 runs:
   using: "node12"
