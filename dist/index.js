@@ -98806,10 +98806,10 @@ var __webpack_exports__ = {};
  * @website:     http://blog.kaven.xyz
  * @file:        [github-action-auto-increment-version] /index.js
  * @create:      2021-12-03 22:34:52.942
- * @modify:      2021-12-03 22:54:40.319
+ * @modify:      2021-12-03 23:07:16.172
  * @version:     1.0.1
- * @times:       3
- * @lines:       65
+ * @times:       5
+ * @lines:       71
  * @copyright:   Copyright © 2021 Kaven. All Rights Reserved.
  * @description: [description]
  * @license:     [license]
@@ -98821,7 +98821,7 @@ const { join, dirname, isAbsolute } = __nccwpck_require__(1017);
 const core = __nccwpck_require__(6744);
 // const github = require("@actions/github");
 
-const { GetFileContent, KavenLog } = __nccwpck_require__(8808);
+const { GetFileContent, KavenLog, LoadJsonFile } = __nccwpck_require__(8808);
 
 
 function logJson(data) {
@@ -98832,13 +98832,21 @@ async function run() {
     try {
         // inputs defined in action metadata file
         const debug = core.getBooleanInput("debug");
-        const dir = core.getInput("dir");
+        let dir = core.getInput("dir");
         const file = core.getInput("file");
         const type = core.getInput("type");
 
         if (debug) {
             logJson(process.env);
+        }
 
+        if (!dir) {
+            if (process.env.GITHUB_WORKSPACE) {
+                dir = process.env.GITHUB_WORKSPACE;
+            }
+        }
+
+        if (debug) {
             console.log(`dir: ${dir}, file: ${file}, type: ${type}`);
         }
 
@@ -98847,12 +98855,10 @@ async function run() {
             return;
         }
 
-        const content = await GetFileContent(file);
-        if (debug) {
-            console.log(content);
-        }
+        const json = await LoadJsonFile(file);
+        const oldVersion = json["version"];
 
-        core.setOutput("old", "old");
+        core.setOutput("old", oldVersion);
         core.setOutput("new", "new");
 
         // Get the JSON webhook payload for the event that triggered the workflow
