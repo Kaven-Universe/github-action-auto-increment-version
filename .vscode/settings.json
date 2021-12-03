@@ -1,0 +1,12 @@
+{
+    "cSpell.words": [
+        "kaven",
+        "Kaven",
+        "vercel",
+        "wenkai"
+    ],
+    "files.exclude": {
+        "**/node_modules": true,
+        "**/dist": true
+    }
+}

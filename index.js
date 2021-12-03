@@ -1,0 +1,65 @@
+/********************************************************************
+ * @author:      Kaven
+ * @email:       kaven@wuwenkai.com
+ * @website:     http://blog.kaven.xyz
+ * @file:        [github-action-update-file] /index.js
+ * @create:      2021-12-03 22:34:52.942
+ * @modify:      2021-12-03 22:34:57.923
+ * @version:     1.0.1
+ * @times:       2
+ * @lines:       66
+ * @copyright:   Copyright © 2021 Kaven. All Rights Reserved.
+ * @description: [description]
+ * @license:     [license]
+ ********************************************************************/
+
+const { existsSync, createReadStream, renameSync, statSync } = require("fs");
+const { join, dirname, isAbsolute } = require("path");
+
+const core = require("@actions/core");
+const github = require("@actions/github");
+
+const FormData = require("form-data");
+const { GetFileList, GetFileContent, KavenLog } = require("kaven-utils");
+
+
+function logJson(data) {
+    console.log(JSON.stringify(data, undefined, 2));
+}
+
+async function run() {
+    try {
+        // inputs defined in action metadata file
+        const debug = core.getBooleanInput("debug");
+        const dir = core.getInput("dir");
+        const file = core.getInput("file");
+        const type = core.getInput("type");
+
+        if (debug) {
+            logJson(process.env);
+
+            console.log(`dir: ${dir}, file: ${file}, type: ${type}`);
+        }
+
+        if (!existsSync(file)) {
+            core.setFailed(`file not exists: ${file}`);
+            return;
+        }
+
+        const content = await GetFileContent(file);
+        if (debug) {
+            console.log(content);
+        }
+
+        core.setOutput("old", "old");
+        core.setOutput("new", "new");
+
+        // Get the JSON webhook payload for the event that triggered the workflow
+        // const payload = JSON.stringify(github.context.payload, undefined, 2);
+        // console.log(`The event payload: ${payload}`);
+    } catch (error) {
+        core.setFailed(error.message);
+    }
+}
+
+run().catch(KavenLog.DefaultErrorHandler);

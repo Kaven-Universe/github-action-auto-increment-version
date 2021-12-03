@@ -1,0 +1,19 @@
+name: "Update file"
+description: "Update file"
+inputs:
+  dir:
+    default: ""
+  file:
+    default: ""
+  type:
+    default: ""
+  debug:
+    default: false
+outputs:
+  old:
+    description: "The old version"
+  new:
+    description: "The new version"
+runs:
+  using: "node12"
+  main: "dist/index.js"
