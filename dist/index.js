@@ -98903,9 +98903,9 @@ var __webpack_exports__ = {};
  * @website:     http://blog.kaven.xyz
  * @file:        [github-action-auto-increment-version] /index.js
  * @create:      2021-12-03 22:34:52.942
- * @modify:      2021-12-04 00:43:43.652
+ * @modify:      2021-12-04 00:59:40.106
  * @version:     1.0.1
- * @times:       8
+ * @times:       9
  * @lines:       86
  * @copyright:   Copyright © 2021 Kaven. All Rights Reserved.
  * @description: [description]
@@ -98966,7 +98966,7 @@ async function run() {
         }
 
         json["version"] = newVersion;
-        const f = await SaveStringToFile(file, stringifyJson(json));
+        const f = await SaveStringToFile(stringifyJson(json), file);
 
         console.log(`update version from ${oldVersion} to ${newVersion}, ${f}`);
 
