@@ -4,10 +4,10 @@
  * @website:     http://blog.kaven.xyz
  * @file:        [github-action-auto-increment-version] /src/functions.js
  * @create:      2021-12-04 00:13:27.140
- * @modify:      2021-12-04 00:43:43.651
+ * @modify:      2021-12-04 00:55:53.728
  * @version:     1.0.1
- * @times:       4
- * @lines:       88
+ * @times:       5
+ * @lines:       91
  * @copyright:   Copyright © 2021 Kaven. All Rights Reserved.
  * @description: [description]
  * @license:     [license]
@@ -29,12 +29,15 @@ function logJson(data) {
  * @returns 
  */
 function increase(version, index, increment) {
-    let numbers = version.match(/\d+/g)?.map(Number);
-    const strings = version.match(/[^\d]+/g);
-
+    let numbers = version.match(/\d+/g);
     if (!numbers) {
         return undefined;
     }
+
+    numbers = numbers.map(Number);
+    const strings = version.match(/[^\d]+/g);
+
+
 
     if (index < 0) {
         const temp = numbers.reverse();
