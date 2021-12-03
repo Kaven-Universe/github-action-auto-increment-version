@@ -4,9 +4,9 @@
  * @website:     http://blog.kaven.xyz
  * @file:        [github-action-auto-increment-version] /index.js
  * @create:      2021-12-03 22:34:52.942
- * @modify:      2021-12-04 00:13:27.139
+ * @modify:      2021-12-04 00:43:43.652
  * @version:     1.0.1
- * @times:       7
+ * @times:       8
  * @lines:       86
  * @copyright:   Copyright © 2021 Kaven. All Rights Reserved.
  * @description: [description]
@@ -14,13 +14,10 @@
  ********************************************************************/
 
 const { existsSync } = require("fs");
-const { join, dirname, isAbsolute } = require("path");
-
 const core = require("@actions/core");
 // const github = require("@actions/github");
-
-const { GetFileContent, KavenLog, LoadJsonFile } = require("kaven-utils");
-const { logJson, increase } = require("./src/functions");
+const { KavenLog, LoadJsonFile, SaveStringToFile } = require("kaven-utils");
+const { logJson, increase, stringifyJson } = require("./src/functions");
 
 async function run() {
     try {
@@ -69,7 +66,10 @@ async function run() {
             return;
         }
 
-        console.log(`update version from ${oldVersion} to ${newVersion}`);
+        json["version"] = newVersion;
+        const f = await SaveStringToFile(file, stringifyJson(json));
+
+        console.log(`update version from ${oldVersion} to ${newVersion}, ${f}`);
 
         core.setOutput("oldVersion", oldVersion);
         core.setOutput("newVersion", newVersion);

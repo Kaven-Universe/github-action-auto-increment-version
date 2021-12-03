@@ -98480,17 +98480,21 @@ ZipStream.prototype.finalize = function() {
  * @website:     http://blog.kaven.xyz
  * @file:        [github-action-auto-increment-version] /src/functions.js
  * @create:      2021-12-04 00:13:27.140
- * @modify:      2021-12-04 00:35:22.381
+ * @modify:      2021-12-04 00:43:43.651
  * @version:     1.0.1
- * @times:       3
- * @lines:       83
+ * @times:       4
+ * @lines:       88
  * @copyright:   Copyright © 2021 Kaven. All Rights Reserved.
  * @description: [description]
  * @license:     [license]
  ********************************************************************/
 
+function stringifyJson(data) {
+    return JSON.stringify(data, undefined, 2);
+}
+
 function logJson(data) {
-    console.log(JSON.stringify(data, undefined, 2));
+    console.log(stringifyJson(data));
 }
 
 /**
@@ -98553,6 +98557,7 @@ function increase(version, index, increment) {
 }
 
 module.exports = {
+    stringifyJson,
     logJson,
     increase,
 };
@@ -98895,9 +98900,9 @@ var __webpack_exports__ = {};
  * @website:     http://blog.kaven.xyz
  * @file:        [github-action-auto-increment-version] /index.js
  * @create:      2021-12-03 22:34:52.942
- * @modify:      2021-12-04 00:13:27.139
+ * @modify:      2021-12-04 00:43:43.652
  * @version:     1.0.1
- * @times:       7
+ * @times:       8
  * @lines:       86
  * @copyright:   Copyright © 2021 Kaven. All Rights Reserved.
  * @description: [description]
@@ -98905,13 +98910,10 @@ var __webpack_exports__ = {};
  ********************************************************************/
 
 const { existsSync } = __nccwpck_require__(7147);
-const { join, dirname, isAbsolute } = __nccwpck_require__(1017);
-
 const core = __nccwpck_require__(6744);
 // const github = require("@actions/github");
-
-const { GetFileContent, KavenLog, LoadJsonFile } = __nccwpck_require__(8808);
-const { logJson, increase } = __nccwpck_require__(6606);
+const { KavenLog, LoadJsonFile, SaveStringToFile } = __nccwpck_require__(8808);
+const { logJson, increase, stringifyJson } = __nccwpck_require__(6606);
 
 async function run() {
     try {
@@ -98960,7 +98962,10 @@ async function run() {
             return;
         }
 
-        console.log(`update version from ${oldVersion} to ${newVersion}`);
+        json["version"] = newVersion;
+        const f = await SaveStringToFile(file, stringifyJson(json));
+
+        console.log(`update version from ${oldVersion} to ${newVersion}, ${f}`);
 
         core.setOutput("oldVersion", oldVersion);
         core.setOutput("newVersion", newVersion);

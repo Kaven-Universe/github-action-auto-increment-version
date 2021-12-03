@@ -4,17 +4,21 @@
  * @website:     http://blog.kaven.xyz
  * @file:        [github-action-auto-increment-version] /src/functions.js
  * @create:      2021-12-04 00:13:27.140
- * @modify:      2021-12-04 00:35:22.381
+ * @modify:      2021-12-04 00:43:43.651
  * @version:     1.0.1
- * @times:       3
- * @lines:       83
+ * @times:       4
+ * @lines:       88
  * @copyright:   Copyright © 2021 Kaven. All Rights Reserved.
  * @description: [description]
  * @license:     [license]
  ********************************************************************/
 
+function stringifyJson(data) {
+    return JSON.stringify(data, undefined, 2);
+}
+
 function logJson(data) {
-    console.log(JSON.stringify(data, undefined, 2));
+    console.log(stringifyJson(data));
 }
 
 /**
@@ -77,6 +81,7 @@ function increase(version, index, increment) {
 }
 
 module.exports = {
+    stringifyJson,
     logJson,
     increase,
 };
