@@ -4,10 +4,10 @@
  * @website:     http://blog.kaven.xyz
  * @file:        [github-action-auto-increment-version] /index.js
  * @create:      2021-12-03 22:34:52.942
- * @modify:      2021-12-04 08:20:01.489
+ * @modify:      2021-12-04 08:35:48.811
  * @version:     1.0.1
- * @times:       13
- * @lines:       110
+ * @times:       15
+ * @lines:       108
  * @copyright:   Copyright © 2021 Kaven. All Rights Reserved.
  * @description: [description]
  * @license:     [license]
@@ -16,8 +16,8 @@
 const { existsSync } = require("fs");
 const core = require("@actions/core");
 // const github = require("@actions/github");
-const { KavenLog, GetFileLines, SaveStringToFile } = require("kaven-utils");
-const { logJson, increase, tryParseVersion } = require("./src/functions");
+const { KavenLog, SaveStringToFile } = require("kaven-utils");
+const { logJson, increase, tryParseVersionFromFile } = require("./src/functions");
 const { join, resolve } = require("path");
 
 async function run() {
@@ -53,7 +53,7 @@ async function run() {
             const possibleFiles = ["package.json", "pubspec.yaml"];
             for (const f of possibleFiles) {
                 if (existsSync(f)) {
-                    file =f;
+                    file = f;
                 }
             }
         }
@@ -73,19 +73,17 @@ async function run() {
             console.log(`dir: ${dir}, file: ${file}, index: ${index}, increment: ${increment}`);
         }
 
-        const { endOfLineSequence, lines } = await GetFileLines(file);
-        const versionLines = lines.filter(p => tryParseVersion(p) !== undefined);
-        if (versionLines.length !== 1) {
-            core.setFailed(`parse version failed: ${versionLines.length}`);
+        const result = await tryParseVersionFromFile(file);
+        if (result === undefined) {
+            core.setFailed("parse version failed");
             return;
         }
 
-        const versionLine = versionLines[0];
-        const oldVersion = tryParseVersion(versionLine);
+        const { version, lines, versionLine, endOfLineSequence } = result;
 
-        const newVersion = increase(oldVersion, index, increment);
+        const newVersion = increase(version, index, increment);
         if (newVersion === undefined) {
-            core.setFailed(`update failed: ${oldVersion}`);
+            core.setFailed(`update failed: ${version}`);
             return;
         }
 
@@ -93,9 +91,9 @@ async function run() {
         lines[lineIndex] = newVersion;
         const f = await SaveStringToFile(lines.join(endOfLineSequence), file);
 
-        console.log(`update version from ${oldVersion} to ${newVersion}, ${f}`);
+        console.log(`update version from ${version} to ${newVersion}, ${f}`);
 
-        core.setOutput("oldVersion", oldVersion);
+        core.setOutput("version", version);
         core.setOutput("newVersion", newVersion);
 
         // Get the JSON webhook payload for the event that triggered the workflow

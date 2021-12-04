@@ -4,16 +4,16 @@
  * @website:     http://blog.kaven.xyz
  * @file:        [github-action-auto-increment-version] /src/functions.js
  * @create:      2021-12-04 00:13:27.140
- * @modify:      2021-12-04 08:02:02.537
+ * @modify:      2021-12-04 08:42:27.642
  * @version:     1.0.1
- * @times:       7
- * @lines:       121
+ * @times:       9
+ * @lines:       145
  * @copyright:   Copyright © 2021 Kaven. All Rights Reserved.
  * @description: [description]
  * @license:     [license]
  ********************************************************************/
 
-const { TrimAll } = require("kaven-utils");
+const { GetFileLines, TrimAll } = require("kaven-utils");
 
 function stringifyJson(data) {
     return JSON.stringify(data, undefined, 2);
@@ -96,7 +96,7 @@ function tryParseVersion(line) {
 
     const keyValue = line.split(":");
     if (keyValue.length !== 2) {
-        return false;
+        return undefined;
     }
 
     let key = keyValue[0];
@@ -112,9 +112,33 @@ function tryParseVersion(line) {
     return value;
 }
 
+/**
+ * 
+ * @param {string} file 
+ * @returns 
+ */
+async function tryParseVersionFromFile(file) {
+    const { endOfLineSequence, lines } = await GetFileLines(file);
+    const versionLines = lines.filter(p => tryParseVersion(p) !== undefined);
+    if (versionLines.length !== 1) {
+        return undefined;
+    }
+
+    const versionLine = versionLines[0];
+    const version = tryParseVersion(versionLine);
+
+    return {
+        endOfLineSequence,
+        lines,
+        versionLine,
+        version,
+    };
+}
+
 module.exports = {
     stringifyJson,
     logJson,
     increase,
     tryParseVersion,
+    tryParseVersionFromFile,
 };
