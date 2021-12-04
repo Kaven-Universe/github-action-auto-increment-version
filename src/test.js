@@ -4,10 +4,10 @@
  * @website:     http://blog.kaven.xyz
  * @file:        [github-action-auto-increment-version] /src/test.js
  * @create:      2021-12-04 00:19:48.929
- * @modify:      2021-12-04 08:40:04.434
+ * @modify:      2021-12-04 08:50:52.067
  * @version:     1.0.1
- * @times:       22
- * @lines:       69
+ * @times:       23
+ * @lines:       70
  * @copyright:   Copyright © 2021 Kaven. All Rights Reserved.
  * @description: [description]
  * @license:     [license]
@@ -55,8 +55,9 @@ async function test() {
     for (const version of versions) {
         test_tryParseVersion(version, `version: ${version}`);
         test_tryParseVersion(version, ` version : ${version} `);
-        test_tryParseVersion(version, ` "version": "${version}" `);
-        test_tryParseVersion(version, ` "version" : "${version}" `);
+        test_tryParseVersion(version, `"version": "${version}",`);
+        test_tryParseVersion(version, ` "version": "${version}" , `);
+        test_tryParseVersion(version, ` "version" : "${version}" ,`);
     }
 
     const version = await tryParseVersionFromFile(join(__dirname, "../package.json"));
