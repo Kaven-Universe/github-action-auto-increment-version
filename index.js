@@ -4,10 +4,10 @@
  * @website:     http://blog.kaven.xyz
  * @file:        [github-action-auto-increment-version] /index.js
  * @create:      2021-12-03 22:34:52.942
- * @modify:      2021-12-04 08:35:48.811
+ * @modify:      2021-12-04 09:04:13.279
  * @version:     1.0.1
- * @times:       15
- * @lines:       108
+ * @times:       16
+ * @lines:       109
  * @copyright:   Copyright © 2021 Kaven. All Rights Reserved.
  * @description: [description]
  * @license:     [license]
@@ -52,7 +52,8 @@ async function run() {
         if (!file) {
             const possibleFiles = ["package.json", "pubspec.yaml"];
             for (const f of possibleFiles) {
-                if (existsSync(f)) {
+                const path = dir ? join(dir, f) : f;
+                if (existsSync(path)) {
                     file = f;
                 }
             }
@@ -75,7 +76,7 @@ async function run() {
 
         const result = await tryParseVersionFromFile(file);
         if (result === undefined) {
-            core.setFailed("parse version failed");
+            core.setFailed(`parse version failed: ${file}`);
             return;
         }
 
