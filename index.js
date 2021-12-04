@@ -4,9 +4,9 @@
  * @website:     http://blog.kaven.xyz
  * @file:        [github-action-auto-increment-version] /index.js
  * @create:      2021-12-03 22:34:52.942
- * @modify:      2021-12-04 09:04:13.279
+ * @modify:      2021-12-04 09:10:13.870
  * @version:     1.0.1
- * @times:       16
+ * @times:       17
  * @lines:       109
  * @copyright:   Copyright © 2021 Kaven. All Rights Reserved.
  * @description: [description]
@@ -89,7 +89,7 @@ async function run() {
         }
 
         const lineIndex = lines.indexOf(versionLine);
-        lines[lineIndex] = newVersion;
+        lines[lineIndex] = lines[lineIndex].replace(version, newVersion);
         const f = await SaveStringToFile(lines.join(endOfLineSequence), file);
 
         console.log(`update version from ${version} to ${newVersion}, ${f}`);
