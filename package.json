@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npm run test && ncc build index.js --license licenses.txt",
+    "build": "npm run test && ncc build index.js -m --license licenses.txt",
     "test": "node src/test.js"
   },
   "repository": {

@@ -4,14 +4,16 @@
  * @website:     http://blog.kaven.xyz
  * @file:        [github-action-auto-increment-version] /src/functions.js
  * @create:      2021-12-04 00:13:27.140
- * @modify:      2021-12-04 00:55:53.728
+ * @modify:      2021-12-04 08:02:02.537
  * @version:     1.0.1
- * @times:       5
- * @lines:       91
+ * @times:       7
+ * @lines:       121
  * @copyright:   Copyright © 2021 Kaven. All Rights Reserved.
  * @description: [description]
  * @license:     [license]
  ********************************************************************/
+
+const { TrimAll } = require("kaven-utils");
 
 function stringifyJson(data) {
     return JSON.stringify(data, undefined, 2);
@@ -83,8 +85,36 @@ function increase(version, index, increment) {
     return undefined;
 }
 
+/**
+ * 
+ * @param {string} line 
+ */
+function tryParseVersion(line) {
+    if (!line) {
+        return undefined;
+    }
+
+    const keyValue = line.split(":");
+    if (keyValue.length !== 2) {
+        return false;
+    }
+
+    let key = keyValue[0];
+    let value = keyValue[1];
+
+    key = TrimAll(TrimAll(key.trim(), "'"), "\"");
+    value = TrimAll(TrimAll(value.trim(), "'"), "\"");
+
+    if (key !== "version") {
+        return undefined;
+    }
+
+    return value;
+}
+
 module.exports = {
     stringifyJson,
     logJson,
     increase,
+    tryParseVersion,
 };
