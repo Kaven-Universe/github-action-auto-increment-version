@@ -4,10 +4,10 @@
  * @website:     http://blog.kaven.xyz
  * @file:        [github-action-auto-increment-version] /index.js
  * @create:      2021-12-03 22:34:52.942
- * @modify:      2022-11-10 17:23:37.053
+ * @modify:      2022-11-10 17:36:47.206
  * @version:     1.0.1
- * @times:       18
- * @lines:       111
+ * @times:       19
+ * @lines:       112
  * @copyright:   Copyright © 2021-2022 Kaven. All Rights Reserved.
  * @description: [description]
  * @license:     [license]
@@ -19,7 +19,7 @@ const { existsSync } = require("fs");
 const core = require("@actions/core");
 // const github = require("@actions/github");
 const { IncreaseVersion } = require("kaven-basic");
-const { KavenLog, SaveStringToFile, TryParseVersionFromFile } = require("kaven-utils");
+const { SaveStringToFile, TryParseVersionFromFile } = require("kaven-utils");
 const { join, resolve } = require("path");
 
 async function run() {
@@ -103,8 +103,9 @@ async function run() {
         // const payload = JSON.stringify(github.context.payload, undefined, 2);
         // console.log(`The event payload: ${payload}`);
     } catch (error) {
+        console.error(error);
         core.setFailed(error.message);
     }
 }
 
-run().catch(KavenLog.DefaultErrorHandler);
+run().catch(ex => console.error(ex));
