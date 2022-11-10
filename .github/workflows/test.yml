@@ -1,7 +1,7 @@
 name: Self test
 
 on:
-  push:
+  #push:
   workflow_dispatch:
 
 jobs:
