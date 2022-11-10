@@ -1,5 +1,5 @@
-name: "Update file"
-description: "Update file"
+name: "Auto increment version"
+description: "Parse and update the version of the project."
 inputs:
   dir:
     default: ""
