@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npm run test && ncc build index.js --license licenses.txt && terser ./dist/index.js --compress --comments false --output ./dist/index.js",
-    "test": "node src/test.js"
+    "build": "ncc build index.js --license licenses.txt && terser ./dist/index.js --compress --comments false --output ./dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",

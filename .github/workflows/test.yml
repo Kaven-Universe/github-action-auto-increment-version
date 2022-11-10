@@ -1,0 +1,25 @@
+name: Self test
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  upload_job:
+    runs-on: ubuntu-latest
+    name: Auto-increment the version number
+    steps:
+      - uses: actions/checkout@v3
+      - name: Version
+        id: version
+        uses: ./
+        #with:
+        #  file: "package.json"
+        #  debug: true
+      - name: Push
+        run: |
+          git config user.name kaven-robot
+          git config user.email robot@wuwenkai.com
+          git add -A
+          git commit -m "Update version from ${{ steps.version.outputs.oldVersion }} to ${{ steps.version.outputs.newVersion }}"
+          git push

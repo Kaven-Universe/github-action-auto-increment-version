@@ -4,20 +4,22 @@
  * @website:     http://blog.kaven.xyz
  * @file:        [github-action-auto-increment-version] /index.js
  * @create:      2021-12-03 22:34:52.942
- * @modify:      2021-12-04 09:10:13.870
+ * @modify:      2022-11-10 17:23:37.053
  * @version:     1.0.1
- * @times:       17
- * @lines:       109
- * @copyright:   Copyright © 2021 Kaven. All Rights Reserved.
+ * @times:       18
+ * @lines:       111
+ * @copyright:   Copyright © 2021-2022 Kaven. All Rights Reserved.
  * @description: [description]
  * @license:     [license]
  ********************************************************************/
 
+/* eslint-disable no-console */
+
 const { existsSync } = require("fs");
 const core = require("@actions/core");
 // const github = require("@actions/github");
-const { KavenLog, SaveStringToFile } = require("kaven-utils");
-const { logJson, increase, tryParseVersionFromFile } = require("./src/functions");
+const { IncreaseVersion } = require("kaven-basic");
+const { KavenLog, SaveStringToFile, TryParseVersionFromFile } = require("kaven-utils");
 const { join, resolve } = require("path");
 
 async function run() {
@@ -30,7 +32,7 @@ async function run() {
         const increment = Number(core.getInput("increment"));
 
         if (debug) {
-            logJson(process.env);
+            console.log(JSON.stringify(process.env, undefined, 2));
         }
 
         if (Number.isNaN(index)) {
@@ -74,7 +76,7 @@ async function run() {
             console.log(`dir: ${dir}, file: ${file}, index: ${index}, increment: ${increment}`);
         }
 
-        const result = await tryParseVersionFromFile(file);
+        const result = await TryParseVersionFromFile(file);
         if (result === undefined) {
             core.setFailed(`parse version failed: ${file}`);
             return;
@@ -82,7 +84,7 @@ async function run() {
 
         const { version, lines, versionLine, endOfLineSequence } = result;
 
-        const newVersion = increase(version, index, increment);
+        const newVersion = IncreaseVersion(version, index, increment);
         if (newVersion === undefined) {
             core.setFailed(`update failed: ${version}`);
             return;
