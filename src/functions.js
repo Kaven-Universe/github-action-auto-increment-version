@@ -4,22 +4,24 @@
  * @website:     http://blog.kaven.xyz
  * @file:        [github-action-auto-increment-version] /src/functions.js
  * @create:      2021-12-04 00:13:27.140
- * @modify:      2021-12-04 08:52:36.708
+ * @modify:      2022-11-10 17:12:43.711
  * @version:     1.0.1
- * @times:       10
- * @lines:       145
- * @copyright:   Copyright © 2021 Kaven. All Rights Reserved.
+ * @times:       12
+ * @lines:       147
+ * @copyright:   Copyright © 2021-2022 Kaven. All Rights Reserved.
  * @description: [description]
  * @license:     [license]
  ********************************************************************/
 
-const { GetFileLines, TrimAll, TrimEnd } = require("kaven-utils");
+const { TrimAll, TrimEnd } = require("kaven-basic");
+const { GetFileLines } = require("kaven-utils");
 
 function stringifyJson(data) {
     return JSON.stringify(data, undefined, 2);
 }
 
 function logJson(data) {
+    // eslint-disable-next-line no-console
     console.log(stringifyJson(data));
 }
 

@@ -4,11 +4,11 @@
  * @website:     http://blog.kaven.xyz
  * @file:        [github-action-auto-increment-version] /src/test.js
  * @create:      2021-12-04 00:19:48.929
- * @modify:      2021-12-04 08:50:52.067
+ * @modify:      2022-11-10 17:11:17.711
  * @version:     1.0.1
- * @times:       23
- * @lines:       70
- * @copyright:   Copyright © 2021 Kaven. All Rights Reserved.
+ * @times:       24
+ * @lines:       71
+ * @copyright:   Copyright © 2021-2022 Kaven. All Rights Reserved.
  * @description: [description]
  * @license:     [license]
  ********************************************************************/
@@ -66,4 +66,5 @@ async function test() {
     }
 }
 
+// eslint-disable-next-line no-console
 test().then(() => console.log("All OK"));
