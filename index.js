@@ -4,9 +4,9 @@
  * @website:     http://blog.kaven.xyz
  * @file:        [github-action-auto-increment-version] /index.js
  * @create:      2021-12-03 22:34:52.942
- * @modify:      2022-11-10 17:36:47.206
+ * @modify:      2022-11-10 17:46:24.973
  * @version:     1.0.1
- * @times:       19
+ * @times:       20
  * @lines:       112
  * @copyright:   Copyright © 2021-2022 Kaven. All Rights Reserved.
  * @description: [description]
@@ -96,7 +96,7 @@ async function run() {
 
         console.log(`update version from ${version} to ${newVersion}, ${f}`);
 
-        core.setOutput("version", version);
+        core.setOutput("oldVersion", version);
         core.setOutput("newVersion", newVersion);
 
         // Get the JSON webhook payload for the event that triggered the workflow
