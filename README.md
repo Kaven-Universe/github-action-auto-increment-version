@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Update
         id: version
-        uses: ./
+        uses: Kaven-Universe/github-action-auto-increment-version@v1
         #with:
         #  file: "package.json"
         #  debug: true
