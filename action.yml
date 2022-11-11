@@ -1,5 +1,9 @@
 name: "Auto increment version"
 description: "Parse and update the version of the project."
+author: Kaven[kaven@wuwenkai.com]
+branding:
+  icon: "arrow-up"
+  color: "blue"
 inputs:
   dir:
     default: ""
